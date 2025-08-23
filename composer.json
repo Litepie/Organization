@@ -1,0 +1,64 @@
+{
+    "name": "litepie/organization",
+    "description": "A Laravel package for managing organizational hierarchy with single table structure",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Litepie Team",
+            "email": "info@litepie.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "illuminate/support": "^10.0|^11.0",
+        "illuminate/database": "^10.0|^11.0",
+        "illuminate/events": "^10.0|^11.0",
+        "illuminate/validation": "^10.0|^11.0",
+        "litepie/tenancy": "^1.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0",
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Litepie\\Organization\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Litepie\\Organization\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Litepie\\Organization\\OrganizationServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "keywords": [
+        "laravel",
+        "organization",
+        "hierarchy",
+        "multi-tenant",
+        "saas",
+        "company",
+        "branch",
+        "department"
+    ],
+    "homepage": "https://github.com/litepie/organization",
+    "support": {
+        "issues": "https://github.com/litepie/organization/issues",
+        "source": "https://github.com/litepie/organization"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/litepie/organization"
+        }
+    ]
+}
