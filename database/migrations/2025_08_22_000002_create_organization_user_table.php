@@ -13,20 +13,13 @@ return new class extends Migration
     {
         Schema::create('organization_user', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('organization_id');
-            $table->unsignedBigInteger('user_id');
-            $table->string('role')->default('member');
+            $table->foreignId('organization_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('role')->default('member')->index();
             $table->timestamps();
 
-            // Indexes
-            $table->index(['organization_id']);
-            $table->index(['user_id']);
-            $table->index(['role']);
+            // Composite unique constraint
             $table->unique(['organization_id', 'user_id', 'role']);
-
-            // Foreign key constraints
-            $table->foreign('organization_id')->references('id')->on('organizations')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

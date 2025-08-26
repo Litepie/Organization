@@ -52,6 +52,7 @@ return [
     'tenancy' => [
         'enabled' => env('ORGANIZATION_TENANCY_ENABLED', false),
         'tenant_column' => 'tenant_id',
+        'tenant_resolver' => \Litepie\Organization\Services\DefaultTenantResolver::class,
     ],
 
     /*

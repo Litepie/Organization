@@ -13,29 +13,22 @@ return new class extends Migration
     {
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('parent_id')->nullable();
-            $table->enum('type', ['company', 'branch', 'department', 'division', 'sub_division']);
+            $table->foreignId('parent_id')->nullable()->constrained('organizations')->onDelete('cascade');
+            $table->enum('type', ['company', 'branch', 'department', 'division', 'sub_division'])->index();
             $table->string('name');
             $table->string('code')->unique();
             $table->text('description')->nullable();
-            $table->unsignedBigInteger('manager_id')->nullable();
-            $table->enum('status', ['active', 'inactive'])->default('active');
-            $table->unsignedBigInteger('created_by');
-            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->text('address')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('website')->nullable();
+            $table->foreignId('manager_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->enum('status', ['active', 'inactive'])->default('active')->index();
+            $table->json('meta')->nullable();
+            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();
-
-            // Indexes
-            $table->index(['parent_id']);
-            $table->index(['type']);
-            $table->index(['status']);
-            $table->index(['manager_id']);
-            $table->index(['created_by']);
-
-            // Foreign key constraints
-            $table->foreign('parent_id')->references('id')->on('organizations')->onDelete('cascade');
-            $table->foreign('manager_id')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
+            $table->softDeletes();
         });
     }
 

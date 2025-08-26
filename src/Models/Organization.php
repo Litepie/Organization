@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Litepie\Organization\Database\Factories\OrganizationFactory;
 use Litepie\Organization\Events\OrganizationCreated;
 use Litepie\Organization\Events\OrganizationDeleted;
@@ -42,12 +44,15 @@ class Organization extends Model
     /**
      * The attributes that should be cast.
      */
-    protected $casts = [
-        'meta' => 'array',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'deleted_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'meta' => 'array',
+            'created_at' => 'datetime',
+            'updated_at' => 'datetime',
+            'deleted_at' => 'datetime',
+        ];
+    }
 
     /**
      * The attributes that should be hidden for serialization.

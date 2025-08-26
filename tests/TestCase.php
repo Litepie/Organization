@@ -32,11 +32,16 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app)
     {
         config()->set('database.default', 'testing');
+        config()->set('database.connections.testing', [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+        ]);
 
-        $migration = include __DIR__.'/../database/migrations/2024_01_01_000001_create_organizations_table.php';
+        $migration = include __DIR__.'/../database/migrations/2025_08_22_000001_create_organizations_table.php';
         $migration->up();
 
-        $migration = include __DIR__.'/../database/migrations/2024_01_01_000002_create_organization_user_table.php';
+        $migration = include __DIR__.'/../database/migrations/2025_08_22_000002_create_organization_user_table.php';
         $migration->up();
 
         // Create tenants table for testing

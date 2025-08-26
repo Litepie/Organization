@@ -3,7 +3,10 @@
 namespace Litepie\Organization;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 use Litepie\Organization\Services\OrganizationService;
+use Litepie\Organization\Models\Organization;
+use Litepie\Organization\Policies\OrganizationPolicy;
 
 class OrganizationServiceProvider extends ServiceProvider
 {
@@ -17,6 +20,7 @@ class OrganizationServiceProvider extends ServiceProvider
         $this->loadRoutes();
         $this->loadViews();
         $this->registerPolicies();
+        $this->publishAssets();
     }
 
     /**
@@ -30,7 +34,7 @@ class OrganizationServiceProvider extends ServiceProvider
 
         // Register tenant resolver
         $this->app->singleton(\Litepie\Organization\Contracts\TenantResolver::class, function ($app) {
-            $resolverClass = config('organization.multi_tenant.tenant_resolver');
+            $resolverClass = config('organization.tenancy.tenant_resolver');
             if ($resolverClass && class_exists($resolverClass)) {
                 return new $resolverClass;
             }
@@ -52,7 +56,7 @@ class OrganizationServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../database/migrations' => database_path('migrations'),
-            ], 'migrations');
+            ], 'organization-migrations');
         }
     }
 
@@ -64,7 +68,7 @@ class OrganizationServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../config/organization.php' => config_path('organization.php'),
-            ], 'config');
+            ], 'organization-config');
         }
     }
 
@@ -85,6 +89,12 @@ class OrganizationServiceProvider extends ServiceProvider
     protected function loadViews(): void
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'organization');
+        
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/../resources/views' => resource_path('views/vendor/organization'),
+            ], 'organization-views');
+        }
     }
 
     /**
@@ -92,9 +102,18 @@ class OrganizationServiceProvider extends ServiceProvider
      */
     protected function registerPolicies(): void
     {
-        if (class_exists(\Illuminate\Foundation\Support\Providers\AuthServiceProvider::class)) {
-            $gate = $this->app->make(\Illuminate\Contracts\Auth\Access\Gate::class);
-            $gate->policy(\Litepie\Organization\Models\Organization::class, \Litepie\Organization\Policies\OrganizationPolicy::class);
+        Gate::policy(Organization::class, OrganizationPolicy::class);
+    }
+
+    /**
+     * Publish package assets.
+     */
+    protected function publishAssets(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/../resources/assets' => public_path('vendor/organization'),
+            ], 'organization-assets');
         }
     }
 }

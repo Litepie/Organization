@@ -7,19 +7,27 @@
 
 [GitHub Repository](https://github.com/litepie/organization)
 
-A Laravel package for managing organizational hierarchy using a single table structure with support for companies, branches, departments, divisions, and sub-divisions. The package includes built-in multi-tenant support for SaaS applications.
+A Laravel 12 package for managing organizational hierarchy using a single table structure with support for companies, branches, departments, divisions, and sub-divisions. The package includes built-in multi-tenant support for SaaS applications.
+
+## Requirements
+
+- **PHP 8.2+**
+- **Laravel 12.0+**
+- MySQL 8.0+ / PostgreSQL 13+ / SQLite 3.35+
 
 ## Features
 
-- Single table organization hierarchy
-- Multiple organization types (company, branch, department, division, sub_division)
-- Manager assignment with primary and secondary managers
-- User role assignments within organizations
-- Recursive tree operations
-- Policy-based authorization
-- Event-driven architecture
-- Comprehensive API and web controllers
-- **Multi-tenant support with configurable tenant resolution**
+- ✅ Laravel 12 compatible with modern PHP features
+- 🏢 Single table organization hierarchy
+- 🔄 Multiple organization types (company, branch, department, division, sub_division)
+- 👤 Manager assignment with primary and secondary managers  
+- 👥 User role assignments within organizations
+- 🌳 Recursive tree operations with optimized queries
+- 🔐 Policy-based authorization with Laravel Gates
+- 📡 Event-driven architecture with modern event broadcasting
+- 🌐 Comprehensive API and web controllers
+- 🏗️ **Multi-tenant support with configurable tenant resolution**
+- 🎯 **Enhanced type safety with PHP 8.2+ features**
 
 ## Installation
 
